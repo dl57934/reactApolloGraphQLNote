@@ -34,7 +34,31 @@ const SubTitle = styled.h2`
   font-weight: 400;
 `;
 
-export default class Notes extends Component {
+const Notes = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const Note = styled.div`
+  padding: 10px;
+  padding-left: 5px;
+  transition: background-color 0.1s linear;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  :hover {
+    background-color: #eeeeee;
+  }
+`;
+
+const NoteTitle = styled.div`
+  padding-bottom: 5px;
+  font-weight: 600;
+  font-size: 20px;
+`;
+
+export default class NotesContainer extends Component {
   render() {
     return (
       <Fragment>
@@ -49,17 +73,21 @@ export default class Notes extends Component {
           </Title>
           <SubTitle>Taking notes while we learn. </SubTitle>
         </Header>
-        <Query query={GET_NOTES}>
-          {({ data }) =>
-            data.notes
-              ? data.notes.map(note => (
-                  <Link to={`/note/${note.id}`} key={note.id}>
-                    {note.title}
-                  </Link>
-                ))
-              : ""
-          }
-        </Query>
+        <Notes>
+          <Query query={GET_NOTES}>
+            {({ data }) =>
+              data.notes
+                ? data.notes.map(note => (
+                    <Link to={`/note/${note.id}`} key={note.id}>
+                      <Note>
+                        <NoteTitle>{note.title}</NoteTitle>
+                      </Note>
+                    </Link>
+                  ))
+                : ""
+            }
+          </Query>
+        </Notes>
       </Fragment>
     );
   }
