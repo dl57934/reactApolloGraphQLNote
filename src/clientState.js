@@ -1,21 +1,9 @@
 import { NOTE_FRAGMENT } from "./fragment";
 import { GET_NOTES } from "./quries";
+import { saveNote } from "./offline";
 
 export const defaults = {
-  notes: [
-    {
-      __typename: "Note",
-      id: 1,
-      title: "beautiful Sanghoon World",
-      content: "gigi"
-    },
-    {
-      __typename: "Note",
-      id: 2,
-      title: "World",
-      content: "jiji"
-    }
-  ]
+  notes: []
 };
 export const typeDefs = [
   `
@@ -64,6 +52,7 @@ export const resolvers = {
           notes: [newNote, ...notes]
         }
       });
+      saveNote(cache);
       return newNote;
     },
     editNote: (_, { id, title, content }, { cache }) => {
